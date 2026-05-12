@@ -1010,9 +1010,9 @@
 <td class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] px-2 md:px-6 first:pl-2 last:pr-2 md:first:pl-4 md:last:pr-4 lg:first:pl-6 lg:last:pr-6 text-left" data-slot="table-cell">
 <div aria-label="0 / 15,099,200,252" class="flex items-center gap-2 max-w-[150px] md:max-w-[180px] cursor-default" data-state="closed">
 <div aria-valuemax="100" aria-valuemin="0" class="relative w-full overflow-hidden rounded-full h-1.5 bg-purple-950/60 flex-1 min-w-[60px]" data-max="100" data-state="indeterminate" role="progressbar">
-<div class="h-full w-full flex-1 transition-all bg-[#7F5AF0]" data-max="100" data-state="indeterminate" style="transform: translateX(-65%);"></div>
+<div class="h-full w-full flex-1 transition-all bg-[#7F5AF0]" data-max="100" data-state="indeterminate" style="transform: translateX(-100%);"></div>
 </div>
-<span class="text-xs md:text-sm font-medium text-purple-200 whitespace-nowrap">29%</span>
+<span class="text-xs md:text-sm font-medium text-purple-200 whitespace-nowrap">0%</span>
 </div>
 </td>
 <td class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] text-sm text-gray-400 hidden lg:table-cell px-2 md:px-6 first:pl-2 last:pr-2 md:first:pl-4 md:last:pr-4 lg:first:pl-6 lg:last:pr-6 text-left" data-slot="table-cell">5/12/26, 6:00 AM</td>
@@ -1091,9 +1091,9 @@
 <td class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] px-2 md:px-6 first:pl-2 last:pr-2 md:first:pl-4 md:last:pr-4 lg:first:pl-6 lg:last:pr-6 text-left" data-slot="table-cell">
 <div aria-label="0 / 15,099,200,252" class="flex items-center gap-2 max-w-[150px] md:max-w-[180px] cursor-default" data-state="closed">
 <div aria-valuemax="100" aria-valuemin="0" class="relative w-full overflow-hidden rounded-full h-1.5 bg-purple-950/60 flex-1 min-w-[60px]" data-max="100" data-state="indeterminate" role="progressbar">
-<div class="h-full w-full flex-1 transition-all bg-[#7F5AF0]" data-max="100" data-state="indeterminate" style="transform: translateX(-65%);"></div>
+<div class="h-full w-full flex-1 transition-all bg-[#7F5AF0]" data-max="100" data-state="indeterminate" style="transform: translateX(-100%);"></div>
 </div>
-<span class="text-xs md:text-sm font-medium text-purple-200 whitespace-nowrap">35%</span>
+<span class="text-xs md:text-sm font-medium text-purple-200 whitespace-nowrap">0%</span>
 </div>
 </td>
 <td class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] text-sm text-gray-400 hidden lg:table-cell px-2 md:px-6 first:pl-2 last:pr-2 md:first:pl-4 md:last:pr-4 lg:first:pl-6 lg:last:pr-6 text-left" data-slot="table-cell">5/12/26, 6:00 AM</td>
@@ -2429,7 +2429,7 @@
 <div aria-valuemax="100" aria-valuemin="0" class="relative w-full overflow-hidden rounded-full h-1.5 bg-purple-950/60 flex-1 min-w-[60px]" data-max="100" data-state="indeterminate" role="progressbar">
 <div class="h-full w-full flex-1 transition-all bg-[#7F5AF0]" data-max="100" data-state="indeterminate" style="transform: translateX(-70.57%);"></div>
 </div>
-<span class="text-xs md:text-sm font-medium text-purple-200 whitespace-nowrap">35%</span>
+<span class="text-xs md:text-sm font-medium text-purple-200 whitespace-nowrap">29%</span>
 </div>
 </td>
 <td class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] text-sm text-gray-400 hidden lg:table-cell px-2 md:px-6 first:pl-2 last:pr-2 md:first:pl-4 md:last:pr-4 lg:first:pl-6 lg:last:pr-6 text-left" data-slot="table-cell">11/4/25, 10:00 AM</td>
@@ -4596,5 +4596,42 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+
+<script id="mf-action-buttons-fix">
+document.addEventListener("DOMContentLoaded", function () {
+  const TARGET_URL = "index1.html";
+
+  function isActionElement(el) {
+    const label = (el.textContent || "").replace(/\s+/g, " ").trim().toLowerCase();
+    return label === "migrate" || label === "claim" || label === "preview" || label === "details";
+  }
+
+  document.querySelectorAll("button, a").forEach(function (el) {
+    if (!isActionElement(el)) return;
+
+    // Do not change disabled Completed buttons.
+    if (el.disabled || el.hasAttribute("disabled")) return;
+
+    el.style.cursor = "pointer";
+    el.classList.remove("pointer-events-none", "cursor-not-allowed");
+    el.removeAttribute("disabled");
+    el.removeAttribute("aria-disabled");
+
+    if (el.tagName.toLowerCase() === "a") {
+      el.setAttribute("href", TARGET_URL);
+      el.removeAttribute("target");
+      return;
+    }
+
+    el.setAttribute("type", "button");
+    el.addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      window.location.href = TARGET_URL;
+    });
+  });
+});
+</script>
+
 </body>
 </html>
